@@ -34,10 +34,10 @@ public class UserController {
     }
 
     @GetMapping
-    public String showUser(Model model, Principal principal){
+    public String showUser(Model model, Principal principal) {
         User user = (User) service.loadUserByUsername(principal.getName());
 
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "user";
     }
 }

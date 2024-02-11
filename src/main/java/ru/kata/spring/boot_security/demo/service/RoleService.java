@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface RoleService {
     Role findRole(String name);
+
     List<Role> getAllRoles();
+
     String[] convertRolesToNames(List<Role> roles);
+
     List<Role> convertNamesToRoles(String[] names);
 
 }

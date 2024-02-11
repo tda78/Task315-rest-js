@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private UserDetailsService service;
+
     @Autowired
     public void setService(UserDetailsService service) {
         this.service = service;
@@ -49,10 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
+
     @Bean
     public AuthenticationProvider authProvider() {
 
-        DaoAuthenticationProvider provider =  new DaoAuthenticationProvider();
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(service);
         provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 
@@ -60,21 +62,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-////    }
-//    @Autowired
-//    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(service).passwordEncoder(bCryptPasswordEncoder());
-//    }
 }

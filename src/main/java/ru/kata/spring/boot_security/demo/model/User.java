@@ -27,12 +27,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public String rolesString(){
-        if(roles==null) return "USER";
-        if(roles.size()==2) return "USER, ADMIN";
-        if(roles.get(0).getName().equals("ADMIN")) return "ADMIN";
+    public String rolesString() {
+        if (roles == null) return "USER";
+        if (roles.size() == 2) return "USER, ADMIN";
+        if (roles.get(0).getName().equals("ADMIN")) return "ADMIN";
         return "USER";
     }
+
     public List<Role> getRoles() {
         return roles;
     }
