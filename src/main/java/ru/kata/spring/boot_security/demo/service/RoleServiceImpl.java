@@ -14,9 +14,6 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
     private RoleDao roleRepository;
 
-    public RoleServiceImpl() {
-    }
-
     @Autowired
     public RoleServiceImpl(RoleDao roleRepository) {
         this.roleRepository = roleRepository;
