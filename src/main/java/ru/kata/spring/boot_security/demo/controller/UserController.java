@@ -17,9 +17,6 @@ public class UserController {
 
     private UserService service;
 
-    public UserController() {
-    }
-
     @Autowired
     public UserController(UserService service) {
         this.service = service;
@@ -33,10 +30,9 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String showUser(Model model, Principal principal) {
         User user = (User) service.loadUserByUsername(principal.getName());
-
         model.addAttribute("user", user);
         return "user";
     }

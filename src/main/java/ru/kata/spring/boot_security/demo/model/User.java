@@ -18,9 +18,10 @@ public class User implements UserDetails {
     private String name;
     private String lastName;
     private int age;
+    @Column(unique = true)
     private String email;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles;
 
@@ -30,7 +31,7 @@ public class User implements UserDetails {
     public String rolesString() {
         if (roles == null) return "USER";
         if (roles.size() == 2) return "USER, ADMIN";
-        if (roles.get(0).getName().equals("ADMIN")) return "ADMIN";
+        if (roles.get(0).getName().equals("ROLE_ADMIN")) return "ADMIN";
         return "USER";
     }
 
@@ -52,7 +53,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(roles);
         return roles;
     }
 

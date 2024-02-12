@@ -10,7 +10,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
-@RequestMapping("/admin/")
+@RequestMapping("/admin")
 public class AdminController {
 
     private UserService userService;
@@ -22,21 +22,21 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
     }
 
-    @GetMapping("new")
+    @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "newuser";
     }
 
-    @PostMapping("new")
+    @PostMapping("/new")
     public String create(@ModelAttribute("user") User user,
                          @RequestParam(value = "selectRoles") String[] roles) {
         user.setRoles(roleService.convertNamesToRoles(roles));
@@ -44,14 +44,14 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @GetMapping("update")
+    @GetMapping("/update")
     public String updateForm(Model model, @RequestParam("id") long id) {
         model.addAttribute("user", userService.getUser(id));
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "userupdate";
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public String submitUpdate(@ModelAttribute("user") User user,
                                @RequestParam("id") long id,
                                @RequestParam(value = "selectRoles") String[] roles) {
@@ -61,14 +61,14 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @GetMapping("delete")
+    @GetMapping("/delete")
     public String deleteForm(Model model, @RequestParam("id") long id) {
         model.addAttribute("user", userService.getUser(id));
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "deleteUser";
     }
 
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public String deleteUser(@RequestParam("id") long id) {
         userService.deleteUser(id);
         return "redirect:/admin/";
