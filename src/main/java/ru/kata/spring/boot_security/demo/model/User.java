@@ -21,7 +21,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles;
 
@@ -29,10 +29,16 @@ public class User implements UserDetails {
     }
 
     public String rolesString() {
-        if (roles == null) return "USER";
-        if (roles.size() == 2) return "USER, ADMIN";
-        if (roles.get(0).getName().equals("ROLE_ADMIN")) return "ADMIN";
-        return "USER";
+        StringBuilder result = new StringBuilder();
+        for (Role role: roles){
+            result.append(role.toString());
+            result.append(" ");
+        }
+        return result.toString();
+//        if (roles == null) return "USER";
+//        if (roles.size() == 2) return "USER, ADMIN";
+//        if (roles.get(0).getName().equals("ROLE_ADMIN")) return "ADMIN";
+//        return "USER";
     }
 
     public List<Role> getRoles() {

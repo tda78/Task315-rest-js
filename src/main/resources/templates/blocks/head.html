@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="header">
+    <div class="container-fluid">
+
+        <div class="row py-my-3" style="color: #ffffff; background-color: #31373e ">
+            <div class="col-11 ">
+                <strong th:text="${me.username}">
+                </strong> with roles <span
+                    th:text="${#strings.listJoin(me.roles, ', ')}"></span>
+            </div>
+            <div class="col">
+                <a class="btn btn-link" th:href="@{/logout}"> Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

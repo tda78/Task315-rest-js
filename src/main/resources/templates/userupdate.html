@@ -24,7 +24,7 @@
         <select required multiple class="form-control" th:name="selectRoles" id="roles">
             <option th:each="role: ${allRoles}"
                     th:value="${role.name}"
-                    th:text="${role.name}"
+                    th:text="${role.toString()}"
                     th:selected="${user.roles.contains(role)}">
                 role
             </option>
