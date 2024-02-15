@@ -5,11 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,7 +31,7 @@ public class AdminController {
 
     @GetMapping("/")
     public String getAllUsers(Model model, Principal principal) {
-        model.addAttribute("me", userService.loadUserByUsername(principal.getName()));
+        model.addAttribute("me", (User) userService.loadUserByUsername(principal.getName()));
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
@@ -40,9 +45,21 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("user") User user,
-                         @RequestParam(value = "selectRoles") String[] roles) {
-        user.setRoles(roleService.convertNamesToRoles(roles));
+    public String create(HttpServletRequest request){
+    User user = new User(request.getParameter("edit_firstName")
+            , request.getParameter("edit_lastName")
+            , Integer.parseInt(request.getParameter("edit_age"))
+            , request.getParameter("edit_name")
+            , request.getParameter("edit_password"),
+            new ArrayList<Role>()
+    );
+    List<String> roles = Arrays.asList(request.getParameterValues("selectRoles"));
+        if (roles.contains("ROLE_ADMIN")) {
+        user.getRoles().add(roleService.findRole("ROLE_ADMIN"));
+    }
+        if (roles.contains("ROLE_USER")) {
+        user.getRoles().add(roleService.findRole("ROLE_USER"));
+    }
         userService.saveUser(user);
         return "redirect:/admin/";
     }
@@ -55,11 +72,23 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String submitUpdate(@ModelAttribute("user") User user,
-                               @RequestParam("id") long id,
-                               @RequestParam(value = "selectRoles") String[] roles) {
-        user.setId(id);
-        user.setRoles(roleService.convertNamesToRoles(roles));
+    public String submitUpdate(HttpServletRequest request) {
+        User user = new User(Long.parseLong(request.getParameter("edit_userID"))
+                , request.getParameter("edit_firstName")
+                , request.getParameter("edit_lastName")
+                , Integer.parseInt(request.getParameter("edit_age"))
+                , request.getParameter("edit_name")
+                , request.getParameter("edit_password"),
+                new ArrayList<Role>()
+        );
+        List<String> roles = Arrays.asList(request.getParameterValues("selectRoles"));
+        if (roles.contains("ROLE_ADMIN")) {
+            user.getRoles().add(roleService.findRole("ROLE_ADMIN"));
+        }
+        if (roles.contains("ROLE_USER")) {
+            user.getRoles().add(roleService.findRole("ROLE_USER"));
+        }
+
         userService.updateUser(user);
         return "redirect:/admin/";
     }

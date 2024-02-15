@@ -28,6 +28,31 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public User(String name, String lastName, int age, String email, String password, List<Role> roles) {
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(Long id
+            , String name
+            , String lastName
+            , int age
+            , String email
+            , String password
+            , List<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public String rolesString() {
         StringBuilder result = new StringBuilder();
         for (Role role: roles){
@@ -35,10 +60,6 @@ public class User implements UserDetails {
             result.append(" ");
         }
         return result.toString();
-//        if (roles == null) return "USER";
-//        if (roles.size() == 2) return "USER, ADMIN";
-//        if (roles.get(0).getName().equals("ROLE_ADMIN")) return "ADMIN";
-//        return "USER";
     }
 
     public List<Role> getRoles() {
