@@ -55,7 +55,7 @@ public class User implements UserDetails {
 
     public String rolesString() {
         StringBuilder result = new StringBuilder();
-        for (Role role: roles){
+        for (Role role : roles) {
             result.append(role.toString());
             result.append(" ");
         }

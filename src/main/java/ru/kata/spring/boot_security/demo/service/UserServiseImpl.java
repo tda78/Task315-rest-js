@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
-import ru.kata.spring.boot_security.demo.dao.UserRoleDao;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -17,16 +16,15 @@ import java.util.List;
 public class UserServiseImpl implements UserService {
 
     private UserDao dao;
-    UserRoleDao userRoleDao;
 
-    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
-    public UserServiseImpl(UserDao dao, UserRoleDao userRoleDao) {
+    public UserServiseImpl(UserDao dao, PasswordEncoder encoder) {
         this.dao = dao;
-        this.userRoleDao = userRoleDao;
+        this.encoder = encoder;
     }
+
 
     @Override
     public List<User> getAllUsers() {
@@ -61,7 +59,7 @@ public class UserServiseImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRoleDao.getUserByName(username);
+        User user = dao.getUserByName(username);
         return user;
     }
 }

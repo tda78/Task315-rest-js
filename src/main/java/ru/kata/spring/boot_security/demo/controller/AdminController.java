@@ -32,75 +32,26 @@ public class AdminController {
     @GetMapping("/")
     public String getAllUsers(Model model, Principal principal) {
         model.addAttribute("me", (User) userService.loadUserByUsername(principal.getName()));
+        model.addAttribute("newUser", new User());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
     }
 
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "newuser";
-    }
 
     @PostMapping("/new")
-    public String create(HttpServletRequest request){
-    User user = new User(request.getParameter("edit_firstName")
-            , request.getParameter("edit_lastName")
-            , Integer.parseInt(request.getParameter("edit_age"))
-            , request.getParameter("edit_name")
-            , request.getParameter("edit_password"),
-            new ArrayList<Role>()
-    );
-    List<String> roles = Arrays.asList(request.getParameterValues("selectRoles"));
-        if (roles.contains("ROLE_ADMIN")) {
-        user.getRoles().add(roleService.findRole("ROLE_ADMIN"));
-    }
-        if (roles.contains("ROLE_USER")) {
-        user.getRoles().add(roleService.findRole("ROLE_USER"));
-    }
-        userService.saveUser(user);
+    public String create(@ModelAttribute("newUser") User newUser) {
+        userService.saveUser(newUser);
         return "redirect:/admin/";
     }
 
-    @GetMapping("/update")
-    public String updateForm(Model model, @RequestParam("id") long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "userupdate";
-    }
-
-    @PostMapping("/update")
-    public String submitUpdate(HttpServletRequest request) {
-        User user = new User(Long.parseLong(request.getParameter("edit_userID"))
-                , request.getParameter("edit_firstName")
-                , request.getParameter("edit_lastName")
-                , Integer.parseInt(request.getParameter("edit_age"))
-                , request.getParameter("edit_name")
-                , request.getParameter("edit_password"),
-                new ArrayList<Role>()
-        );
-        List<String> roles = Arrays.asList(request.getParameterValues("selectRoles"));
-        if (roles.contains("ROLE_ADMIN")) {
-            user.getRoles().add(roleService.findRole("ROLE_ADMIN"));
-        }
-        if (roles.contains("ROLE_USER")) {
-            user.getRoles().add(roleService.findRole("ROLE_USER"));
-        }
-
+    @PatchMapping("/update")
+    public String submitUpdate(@ModelAttribute("newUser") User user) {
         userService.updateUser(user);
         return "redirect:/admin/";
     }
 
-    @GetMapping("/delete")
-    public String deleteForm(Model model, @RequestParam("id") long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "deleteUser";
-    }
-
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public String deleteUser(@RequestParam("id") long id) {
         userService.deleteUser(id);
         return "redirect:/admin/";
