@@ -10,7 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    @Bean
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/user").setViewName("user");
+        registry.addViewController("/admin").setViewName("users");
+    }
+        @Bean
     PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }

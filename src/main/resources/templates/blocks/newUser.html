@@ -3,57 +3,54 @@
 <head></head>
 <body>
 <div th:fragment="newUserContent">
-    <div class="contaner text-center" >
+    <div class="contaner text-center">
         <div class="row">
             <div class="col"></div>
             <div class="col">
-            <form th:action="@{/admin/new}" method="post" id="newUserForm" th:object="${newUser}">
+                <form th:action="@{/admin/new}" method="post" id="newUserForm" >
 
-                <div class="form-group text-center text-align:center">
-                    <label for="newUserFirstName"><strong>first name</strong></label>
-                    <input type="text" title="first name" name="edit_firstName" th:field="*{name}"
-                           id="newUserFirstName" class="form-control form-control-sm">
-                </div>
-                <div class="form-group text-center">
-                    <label for="newUserLastName" class="text-center"><strong>last name</strong></label>
-                    <input type="text" name="edit_lastName" th:field="*{lastName}"
-                           id="newUserLastName" class="form-control form-control-sm">
-                </div>
+                    <div class="form-group text-center text-align:center">
+                        <label for="newUserFirstName"><strong>first name</strong></label>
+                        <input type="text" title="first name" name="edit_firstName"
+                               id="newUserFirstName" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="newUserLastName" class="text-center"><strong>last name</strong></label>
+                        <input type="text" name="edit_lastName"
+                               id="newUserLastName" class="form-control form-control-sm">
+                    </div>
 
-                <div class="form-group text-center">
-                    <label for="newUserAge" class="text-center"><strong>age</strong></label>
-                    <input type="number" name="edit_age"  id="newUserAge" th:field="*{age}"
-                           class="form-control form-control-sm">
-                </div>
+                    <div class="form-group text-center">
+                        <label for="newUserAge" class="text-center"><strong>age</strong></label>
+                        <input type="number" name="edit_age" id="newUserAge"
+                               class="form-control form-control-sm">
+                    </div>
 
-                <div class="form-group text-center">
-                    <label for="newUserName" class="text-center"><strong>e-mail</strong></label>
-                    <input required type="email" name="edit_name" id="newUserName" th:field="*{email}"
-                           class="form-control form-control-sm">
-                </div>
+                    <div class="form-group text-center">
+                        <label for="newUserName" class="text-center"><strong>e-mail</strong></label>
+                        <input required type="email" name="edit_name" id="newUserName"
+                               class="form-control form-control-sm">
+                    </div>
 
-                <div class="form-group text-center">
-                    <label for="newUserPassword" class="text-center"><strong>password</strong></label>
-                    <input required type="password" title="password" name="edit_password" th:field="*{password}"
-                           class="form-control form-control-sm"
-                           id="newUserPassword">
-                </div>
+                    <div class="form-group text-center">
+                        <label for="newUserPassword" class="text-center"><strong>password</strong></label>
+                        <input required type="password" title="password" name="edit_password"
+                               class="form-control form-control-sm"
+                               id="newUserPassword">
+                    </div>
 
-                <div class="form-group text-center">
-                    <label for="newUserRole" class="text-center"><strong>roles:</strong></label>
-
-                    <select required multiple class="form-control" size="2" th:name="selectRoles" id="newUserRole"
-                    th:field="*{roles}">
-                        <option th:each="role: ${allRoles}"
-                                th:value="${role.id}"
-                                th:text="${role.toString()}">
-                            role
-                        </option>
-                    </select>
-                </div>
-                <br>
-                    <button type="submit"  form="newUserForm" class="btn btn-success text-center">Add new user</button>
-            </form>
+                    <div class="form-group text-center">
+                        <label for="newUserRole" class="text-center"><strong>roles:</strong></label>
+                        <select required multiple class="form-control" size="2" id="newUserRole">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" form="newUserForm" class="btn btn-success text-center"
+                    >Add new user
+                    </button>
+                </form>
             </div>
             <div class="col">
             </div>

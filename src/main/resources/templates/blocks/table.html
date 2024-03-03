@@ -9,6 +9,7 @@
 <body>
 <div th:fragment="usersTable">
     <table table class="table table-condensed table-striped">
+        <thead></thead>
         <tr>
             <th>ID</th>
             <th>First Name</th>
@@ -19,29 +20,32 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        <tr th:each="user : ${users}">
+        </thead>
+        <tbody id="adminTable">
+<!--        <tr th:each="user : ${users}">-->
 
-            <td th:utext="${user.id}"></td>
-            <td th:utext="${user.name}"></td>
-            <td th:utext="${user.lastName}"></td>
-            <td th:utext="${user.age}"></td>
-            <td th:utext="${user.email}"></td>
-            <td th:utext="${user.rolesString()}"></td>
-            <td>
+<!--            <td th:utext="${user.id}"></td>-->
+<!--            <td th:utext="${user.name}"></td>-->
+<!--            <td th:utext="${user.lastName}"></td>-->
+<!--            <td th:utext="${user.age}"></td>-->
+<!--            <td th:utext="${user.email}"></td>-->
+<!--            <td th:utext="${user.rolesString()}"></td>-->
+<!--            <td>-->
 
-                <input type="button" class="btn btn-primary btn-mini py-1 my-1" data-bs-toggle="modal"
-                       th:attr="data-bs-target='#edit'+${user.id}" value="edit">
-                <!-- Модальное окно-->
-                <div th:insert="~{blocks/modalEditContent :: modalEditContent}"></div>
-            </td>
-            <td>
-                <input type="button" data-target="4" class="btn btn-danger btn-mini py-1 my-1" data-bs-toggle="modal"
-                       th:attr="data-bs-target='#del'+${user.id}" value="delete">
-                <!-- Модальное окно Delete-->
-                <div th:insert="~{blocks/modalDeleteContent::modaDeleteContent}"></div>
-            </td>
+<!--                <input type="button" class="btn btn-primary btn-mini py-1 my-1" data-bs-toggle="modal"-->
+<!--                       th:attr="data-bs-target='#edit'+${user.id}" value="edit">-->
+<!--                &lt;!&ndash; Модальное окно&ndash;&gt;-->
+<!--                <div th:insert="~{blocks/modalEditContent :: modalEditContent}"></div>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <input type="button" data-target="4" class="btn btn-danger btn-mini py-1 my-1" data-bs-toggle="modal"-->
+<!--                       th:attr="data-bs-target='#del'+${user.id}" value="delete">-->
+<!--                &lt;!&ndash; Модальное окно Delete&ndash;&gt;-->
+<!--                <div th:insert="~{blocks/modalDeleteContent::modaDeleteContent}"></div>-->
+<!--            </td>-->
 
-        </tr>
+<!--        </tr>-->
+        </tbody>
     </table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

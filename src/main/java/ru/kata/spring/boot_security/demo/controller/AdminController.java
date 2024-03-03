@@ -2,59 +2,46 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.DTO.UserDTO;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController {
 
     private UserService userService;
-    private RoleService roleService;
 
     @Autowired
-    public AdminController(UserService service, RoleService roleService) {
+    public AdminController(UserService service) {
         this.userService = service;
-        this.roleService = roleService;
+
     }
 
-    @GetMapping("/")
-    public String getAllUsers(Model model, Principal principal) {
-        model.addAttribute("me", (User) userService.loadUserByUsername(principal.getName()));
-        model.addAttribute("newUser", new User());
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "users";
+    @GetMapping("/getMe")
+    public UserDTO getMe(Principal principal) {
+
+        return userService.toDTO((User) userService.loadUserByUsername(principal.getName()));
     }
 
-
-    @PostMapping("/new")
-    public String create(@ModelAttribute("newUser") User newUser) {
-        userService.saveUser(newUser);
-        return "redirect:/admin/";
+    @GetMapping("/getAllUsers")
+    public UserDTO[] getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @PatchMapping("/update")
-    public String submitUpdate(@ModelAttribute("newUser") User user) {
-        userService.updateUser(user);
-        return "redirect:/admin/";
+    public UserDTO[] saveUser(@RequestBody String userJsonString) {
+        return userService.updateUser(userJsonString);
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(@RequestParam("id") long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin/";
+    public UserDTO[] deleteUser(@RequestBody String stringId) {
+        return userService.deleteUser(stringId);
     }
 }

@@ -4,7 +4,7 @@
 <body>
 <div th:fragment="modaDeleteContent">
 
-    <div class="modal fade" th:id="'del'+${user.id}" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -13,52 +13,46 @@
                 </div>
                 <div class="modal-body">
 
-                    <form th:action="@{/admin/delete(id=${user.id})}" method="POST" th:id="'deleteForm'+${user.id}">
+                    <form action="/admin/delete)" method="POST" id="deleteForm">
                         <input type="hidden" name="_method" value="DELETE">
                         <div class="form-group text-center">
-                            <label for="newUserID" class="text-center"><strong>ID</strong></label>
-                            <input type="number" disabled name="edit_age" th:value="${user.id}" id="newUserID"
+                            <label for="deleteUserID" class="text-center"><strong>ID</strong></label>
+                            <input type="number" disabled name="edit_age"  id="deleteUserID"
                                    class="form-control form-control-sm">
                         </div>
 
                         <div class="form-group text-center">
-                            <label for="newUserFirstName"><strong>first name</strong></label>
+                            <label for="deleteUserFirstName"><strong>first name</strong></label>
                             <input type="text" disabled title="first name" name="edit_firstName"
-                                   th:value="${user.name}"
-                                   id="newUserFirstName" class="form-control form-control-sm">
+                                   id="deleteUserFirstName" class="form-control form-control-sm">
                         </div>
                         <div class="form-group text-center">
-                            <label for="newUserLastName" class="text-center"><strong>last name</strong></label>
-                            <input type="text" disabled name="edit_lastName" th:value="${user.lastName}"
-                                   id="newUserLastName" class="form-control form-control-sm">
+                            <label for="deleteUserLastName" class="text-center"><strong>last name</strong></label>
+                            <input type="text" disabled name="edit_lastName"
+                                   id="deleteUserLastName" class="form-control form-control-sm">
                         </div>
 
                         <div class="form-group text-center">
-                            <label for="newUserAge" class="text-center"><strong>age</strong></label>
-                            <input type="number" disabled name="edit_age" th:value="${user.age}" id="newUserAge"
+                            <label for="deleteUserAge" class="text-center"><strong>age</strong></label>
+                            <input type="number" disabled name="edit_age" id="deleteUserAge"
                                    class="form-control form-control-sm">
                         </div>
 
                         <div class="form-group text-center">
-                            <label for="newUserName" class="text-center"><strong>e-mail</strong></label>
-                            <input required type="email" disabled name="edit_name" th:value="${user.email}"
-                                   id="newUserName"
+                            <label for="deleteUserName" class="text-center"><strong>e-mail</strong></label>
+                            <input required type="email" disabled name="edit_name"
+                                   id="deleteUserName"
                                    class="form-control form-control-sm">
                         </div>
 
-                        <input type="hidden" title="name" name="edit_userID" th:value="${user.id}">
 
                         <div class="form-group text-center">
-                            <label for="newUserRole" class="text-center"><strong>roles:</strong></label>
+                            <label for="deleteUserRole" class="text-center"><strong>roles:</strong></label>
 
                             <select required disabled multiple class="form-control" size="2" th:name="selectRoles"
-                                    id="newUserRole">
-                                <option th:each="role: ${allRoles}"
-                                        th:value="${role.name}"
-                                        th:text="${role.toString()}"
-                                        th:selected="${user.roles.contains(role)}">
-                                    role
-                                </option>
+                                    id="deleteUserRole">
+                                <option value="ADMIN">ADMIN></option>
+                                <option value="USER">USER></option>
                             </select>
                         </div>
 
@@ -66,7 +60,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" th:form="'deleteForm'+${user.id}" class="btn btn-danger">Delete</button>
+                    <button type="submit" form="deleteForm" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </div>

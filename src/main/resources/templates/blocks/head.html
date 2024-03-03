@@ -13,10 +13,8 @@
     <div class="container-fluid">
 
         <div class="row py-my-3" style="color: #ffffff; background-color: #31373e ">
-            <div class="col-11 ">
-                <strong th:text="${me.username}"></strong> with roles <span
-                    th:text="${#strings.listJoin(me.roles, ', ')}">
-            </span>
+            <div class="col-11"> <span id = "headerStringPlace" th:text="hi">
+                <span>
             </div>
             <div class="col">
                 <a class="btn btn-link" th:href="@{/logout}"> Logout</a>

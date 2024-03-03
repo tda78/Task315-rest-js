@@ -32,7 +32,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> convertNamesToRoles(String[] names) {
         List<Role> userRoles = new ArrayList<>();
-        for (String s : names) userRoles.add(findRole(s));
+        for (String s : names) {
+            s = "ROLE_" + s;
+            userRoles.add(findRole(s));
+        }
         return userRoles;
     }
 
@@ -40,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
     public String[] convertRolesToNames(List<Role> roles) {
         String[] names = new String[roles.size()];
         for (int i = 0; i < roles.size(); i++) {
-            names[i] = roles.get(i).getName();
+            names[i] = roles.get(i).toString();
         }
         return names;
     }
