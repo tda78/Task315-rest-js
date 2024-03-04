@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.DTO.UserDTO;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -16,34 +16,36 @@ import java.util.List;
 
 @Service
 public class UserServiseImpl implements UserService {
-    ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    private UserDao dao;
-    private RoleService roleService;
+    private final UserDao dao;
+    private final RoleService roleService;
 
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     @Autowired
-    public UserServiseImpl(UserDao dao, RoleService roleService, PasswordEncoder encoder) {
+    public UserServiseImpl(UserDao dao, RoleService roleService,
+                           ObjectMapper objectMapper, PasswordEncoder encoder) {
         this.dao = dao;
         this.roleService = roleService;
         this.encoder = encoder;
+        this.objectMapper = objectMapper;
     }
 
 
     @Override
-    public UserDTO[] getAllUsers() {
-        List<User> allUsers = dao.findAll();
-        UserDTO[] result = new UserDTO[allUsers.size()];
-        for (int i = 0; i < allUsers.size(); i++) {
-            result[i] = toDTO(allUsers.get(i));
-        }
-        return result;
+    public List<UserDto> getAllUsers() {
+        return dao.findAll().stream().map(user->toDTO(user)).toList();
     }
 
     @Override
-    public User getUser(Long id) {
-        return dao.findById(id).get();
+    public UserDto getUser(Long id) {
+        return toDTO(dao.findById(id).get());
+    }
+
+    @Override
+    public UserDto getme(String name) {
+        return toDTO((User) loadUserByUsername(name));
     }
 
 
@@ -56,27 +58,26 @@ public class UserServiseImpl implements UserService {
 
     @Transactional
     @Override
-    public UserDTO[] updateUser(String userJsonString) {
+    public void updateUser(String userJsonString) {
         try {
-            UserDTO userDTO = objectMapper.readValue(userJsonString, UserDTO.class);
+            UserDto userDTO = objectMapper.readValue(userJsonString, UserDto.class);
             saveUser(fromDTO(userDTO));
+
         } catch (Exception e) {
             System.out.println(e);
         }
-        return getAllUsers();
+
     }
 
     @Transactional
     @Override
-    public UserDTO[] deleteUser(String id) {
-
+    public void deleteUser(String id) {
         dao.deleteById(Long.parseLong(id));
-        return getAllUsers();
     }
 
-    @Override
-    public UserDTO toDTO(User user) {
-        UserDTO result = new UserDTO();
+
+    private UserDto toDTO(User user) {
+        UserDto result = new UserDto();
         result.setId(user.getId());
         result.setName(user.getName());
         result.setLastName(user.getLastName());
@@ -87,8 +88,7 @@ public class UserServiseImpl implements UserService {
         return result;
     }
 
-    @Override
-    public User fromDTO(UserDTO userDTO) {
+    private User fromDTO(UserDto userDTO) {
         return new User(userDTO.getId(),
                 userDTO.getName(),
                 userDTO.getLastName(),

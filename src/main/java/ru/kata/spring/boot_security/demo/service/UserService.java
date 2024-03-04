@@ -2,24 +2,20 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.kata.spring.boot_security.demo.DTO.UserDTO;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
-    UserDTO[] getAllUsers();
+    List<UserDto> getAllUsers();
 
-    User getUser(Long id);
+    UserDto getUser(Long id);
+    UserDto getme(String name);
 
     void saveUser(User user);
 
-    UserDTO[] updateUser(String userJsonString);
+    void updateUser(String userJsonString);
 
-    UserDTO[] deleteUser(String stringId);
-
-    UserDTO toDTO(User user);
-
-    User fromDTO(UserDTO userDTO);
-
+    void deleteUser(String stringId);
 }

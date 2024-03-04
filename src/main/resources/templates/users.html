@@ -185,7 +185,7 @@
     }
 
     function getAllRoles() {
-        return ["ADMIN", "USER"]
+        return allUseRoles
     }
 
     function submitEdit() {
@@ -292,6 +292,14 @@
             })
     }
 
+    async function loadRoles(){
+        fetch('/admin/getRoles')
+            .then(response => response.json())
+            .then(commits => {
+                allUseRoles = commits
+            })
+    }
+
     let editForm = document.getElementById('editForm')
     editForm.onsubmit = submitEdit
     let newUserForm = document.getElementById('newUserForm')
@@ -302,12 +310,11 @@
     var editModal = new bootstrap.Modal(document.getElementById('editModal'), {})
     var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'), {})
 
-
-
-
     drawMe()
     let users
+    let allUseRoles
     loadUsers()
+    loadRoles()
 
 
 </script>

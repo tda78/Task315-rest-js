@@ -1,21 +1,17 @@
-package ru.kata.spring.boot_security.demo.DTO;
+package ru.kata.spring.boot_security.demo.dto;
 
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
-
-import javax.persistence.*;
 import java.util.List;
 
-public class UserDTO {
+public class UserDto {
     private Long id;
     private String name;
     private String lastName;
     private int age;
     private String email;
     private String password;
-    private String[] roles;
+    private List<String> roles;
 
-    public UserDTO() {}
+    public UserDto() {}
 
     public Long getId() {
         return id;
@@ -65,11 +61,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String[] getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(String[] roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 }

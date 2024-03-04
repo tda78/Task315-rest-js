@@ -9,9 +9,9 @@ import java.util.List;
 public interface RoleService {
     Role findRole(String name);
 
-    List<Role> getAllRoles();
+    List<String> getAllRoles();
 
-    String[] convertRolesToNames(List<Role> roles);
+    List<String> convertRolesToNames(List<Role> roles);
 
-    List<Role> convertNamesToRoles(String[] names);
+    List<Role> convertNamesToRoles(List<String> names);
 }

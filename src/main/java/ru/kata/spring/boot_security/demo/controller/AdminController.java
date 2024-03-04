@@ -3,13 +3,12 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.DTO.UserDTO;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.List;
 
 
 @RestController
@@ -17,31 +16,39 @@ import java.security.Principal;
 public class AdminController {
 
     private UserService userService;
+    private RoleService roleService;
 
     @Autowired
-    public AdminController(UserService service) {
+    public AdminController(UserService service, RoleService roleService) {
         this.userService = service;
-
+        this.roleService = roleService;
     }
 
-    @GetMapping("/getMe")
-    public UserDTO getMe(Principal principal) {
+    @GetMapping("/getRoles")
+    public List<String> getAllRoles() {
+        return roleService.getAllRoles();
+    }
 
-        return userService.toDTO((User) userService.loadUserByUsername(principal.getName()));
+
+    @GetMapping("/getMe")
+    public UserDto getMe(Principal principal) {
+        return userService.getme(principal.getName());
     }
 
     @GetMapping("/getAllUsers")
-    public UserDTO[] getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PatchMapping("/update")
-    public UserDTO[] saveUser(@RequestBody String userJsonString) {
-        return userService.updateUser(userJsonString);
+    public List<UserDto> saveUser(@RequestBody String userJsonString) {
+        userService.updateUser(userJsonString);
+        return userService.getAllUsers();
     }
 
     @DeleteMapping("/delete")
-    public UserDTO[] deleteUser(@RequestBody String stringId) {
-        return userService.deleteUser(stringId);
+    public List<UserDto> deleteUser(@RequestBody String stringId) {
+        userService.deleteUser(stringId);
+        return getAllUsers();
     }
 }
