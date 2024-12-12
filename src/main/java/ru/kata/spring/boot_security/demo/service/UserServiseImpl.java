@@ -35,7 +35,8 @@ public class UserServiseImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return dao.findAll().stream().map(user->toDTO(user)).toList();
+        List<UserDto> result= dao.findAll().stream().map(user->toDTO(user)).toList();
+        return result;
     }
 
     @Override
@@ -45,7 +46,8 @@ public class UserServiseImpl implements UserService {
 
     @Override
     public UserDto getme(String name) {
-        return toDTO((User) loadUserByUsername(name));
+        UserDto result = toDTO((User) loadUserByUsername(name));
+        return result;
     }
 
 
