@@ -1,53 +1,323 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
-
     <title></title>
 </head>
 <body>
 <div th:insert="~{blocks/head::header}"></div>
-<div>
-    <table table class="table table-condensed table-striped">
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>last name</th>
-            <th>age</th>
-            <th>email</th>
-            <th>password</th>
-            <th>role</th>
-            <th>update</th>
-            <th>delete</th>
-        </tr>
-        <tr th:each="user : ${users}">
+<div class="container-fluid">
+    <div th:class="row">
+        <div th:class="col-2">
+            <br>
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#adminPanel" data-bs-toggle="tab" role="tab">Admin</a>
+                </li>
+                <li id="userLink">
+                    <a class="nav-link" href="#userPanel" data-bs-toggle="tab" role="tab">User</a>
+                </li>
+            </ul>
+        </div>
 
-            <td th:utext="${user.id}"></td>
-            <td th:utext="${user.name}"></td>
-            <td th:utext="${user.lastName}"></td>
-            <td th:utext="${user.age}"></td>
-            <td th:utext="${user.email}"></td>
-            <td th:utext="${user.password}"></td>
-            <td th:utext="${user.rolesString()}"></td>
-            <td><a th:href="@{/admin/update(id=${user.id})}"/>update</td>
-            <td><a th:href="@{/admin/delete(id=${user.id})}"/>delete</td>
-        </tr>
-    </table>
-    <a href="new">new user</a>
-    <br>
-    <a th:href="@{/user/}">my page</a>
-    <br>
-    <a th:href="@{/logout}">logout</a>
+        <div class="col col-md-10">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active in" id="adminPanel">
+                    <h1> Admin panel</h1>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item" >
+                            <a class="nav-link active" href="#adminUsers" data-bs-toggle="tab"
+                               id="usersTableTab" >Users table</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#newUser" data-bs-toggle="tab">New user</a>
+                        </li>
+                    </ul>
+                    <div class="panel panel-default active">
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="adminUsers">
+                                <h2 class="mx-5"> All users</h2>
+                                <div th:insert="~{blocks/table::usersTable}"></div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="newUser">
+                                <h2 class="mx-5"> Add new user</h2>
+                                <div th:insert="~{blocks/newUser::newUserContent}"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="userPanel">
+
+                    <h2>User information page</h2>
+                    <div class="container">
+                        <h3>About user</h3>
+                        <div th:insert="~{blocks/user :: userContent}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- Optional theme -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- Latest compiled and minified JavaScript -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<div th:insert="~{blocks/modalEditContent::modalEditContent}"></div>
+<div th:insert="~{blocks/modalDeleteContent::modaDeleteContent}"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+<script>
+
+    function hideUser(me) {
+        let userInfoButton = document.getElementById('userLink')
+        userInfoButton.hidden = !(me.roles.includes('USER'))
+
+    }
+
+    function drawHeader(me) {
+        let head = document.getElementById('headerStringPlace')
+        head.innerHTML = "<strong>" + me.email + "</strong> with roles " + me.roles.join()
+    }
+
+    function drawTable(me) {
+        let userInfo = document.getElementById('userTableRow')
+        let html = '<tr>'
+        html += '<td>' + me.id + '</td>'
+        html += '<td>' + me.name + '</td>'
+        html += '<td>' + me.lastName + '</td>'
+        html += '<td>' + me.age + '</td>'
+        html += '<td>' + me.email + '</td>'
+        html += '<td>' + me.roles.join() + '</td>'
+        html += '</tr>'
+        userInfo.innerHTML = html
+    }
+
+    function drawAdminTable() {
+        let adminTable = document.getElementById('adminTable')
+        let html = "";
+        for (let user of users) {
+            //   console.log(user)
+            html += "<tr><td>" + user.id + "</td>"
+            html += "<td>" + user.name + "</td>"
+            html += "<td>" + user.lastName + "</td>"
+            html += "<td>" + user.age + "</td>"
+            html += "<td>" + user.email + "</td>"
+            html += "<td>" + user.roles.join() + "</td>"
+
+            html += "<td><input type='button' onclick='editUser(" + users.indexOf(user) +
+                ")' class='btn btn-primary btn-mini py-1 my-1' value='edit' </td>"
+
+            html += "<td><input type='button' onclick='deleteUser(" + users.indexOf(user) +
+                ")' class='btn btn-danger btn-mini py-1 my-1' value='delete'></td>"
+
+
+            html += "</tr>"
+        }
+        adminTable.innerHTML = html
+
+        //console.log(users)
+        // console.log(jsonString)
+    }
+
+    async function drawMe() {
+        fetch('/admin/getMe')
+            .then(response => response.json())
+            .then(commits => {
+                drawHeader(commits)
+                drawTable(commits)
+                hideUser(commits)
+            })
+    }
+
+    async function loadUsers() {
+        fetch('/admin/getAllUsers')
+            .then(response => response.json())
+            .then(commits => {
+                getUsers(commits)
+                drawAdminTable()
+            })
+    }
+
+    async function getUsers(json) {
+        users = json
+    }
+
+    function editUser(index) {
+
+        let user = users[index]
+        document.getElementById('editUserID').value = user.id
+        document.getElementById('editUserFirstName').value = user.name
+        document.getElementById('editUserLastName').value = user.lastName
+        document.getElementById('editUserAge').value = user.age
+        document.getElementById('editUserName').value = user.email
+        document.getElementById('editUserPassword').value = user.password
+        let allRoles = document.getElementById('editUserRole')
+        for (let role of allRoles.options) {
+            role.selected = false
+            for (let userRole of user.roles) {
+                if (role.value == userRole) {
+                    role.selected = true;
+                    break;
+                }
+
+            }
+
+            //console.log(role)
+            //role.selected = true
+            // role.selected === user.roles.includes(role.text)
+            // console.log('role.value.toStrinf')
+            // console.log(role.text.toString())
+        }
+        editModal.show()
+    }
+
+    function getAllRoles() {
+        return allUseRoles
+    }
+
+    function submitEdit() {
+        event.preventDefault()
+        editModal.hide()
+        let allRoles = document.getElementById('editUserRole')
+        let user =
+            {
+                id: document.getElementById('editUserID').value,
+                name: document.getElementById('editUserFirstName').value,
+                lastName: document.getElementById('editUserLastName').value,
+                age: document.getElementById('editUserAge').value,
+                email: document.getElementById('editUserName').value,
+                password: document.getElementById('editUserPassword').value,
+                roles: Array.from(allRoles.options)
+                    .filter(option => option.selected)
+                    .map(option => option.value)
+            };
+
+        saveUser(user)
+
+    }
+    function newUserSubmit(){
+        console.log('new user submit')
+        event.preventDefault()
+
+        let allRoles = document.getElementById('newUserRole')
+        let user =
+            {
+                id: 0,
+                name: document.getElementById('newUserFirstName').value,
+                lastName: document.getElementById('newUserLastName').value,
+                age: document.getElementById('newUserAge').value,
+                email: document.getElementById('newUserName').value,
+                password: document.getElementById('newUserPassword').value,
+
+                roles: Array.from(allRoles.options)
+                    .filter(option => option.selected)
+                    .map(option => option.value)
+            };
+        new bootstrap.Tab(document.getElementById('usersTableTab')).show()
+        saveUser(user)
+
+    }
+
+    async function saveUser(user) {
+        fetch('/admin/update',
+            {
+                method: 'PATCH',
+                body: JSON.stringify(user)
+            })
+            .then(response => response.json())
+            .then(commits => {
+                getUsers(commits)
+                drawAdminTable()
+            })
+    }
+
+    function deleteUser(index){
+        console.log('deleteUser')
+        console.log (users)
+        let user = users[index]
+        console.log(user)
+        document.getElementById('deleteUserID').value = user.id
+        document.getElementById('deleteUserFirstName').value = user.name
+        document.getElementById('deleteUserLastName').value = user.lastName
+        document.getElementById('deleteUserAge').value = user.age
+        document.getElementById('deleteUserName').value = user.email
+        let allRoles = document.getElementById('deleteUserRole')
+        for (let role of allRoles.options) {
+            role.selected = false
+            for (let userRole of user.roles) {
+                if (role.value == userRole) {
+                    role.selected = true;
+                    break;
+                }
+            }
+
+            //console.log(role)
+            //role.selected = true
+            // role.selected === user.roles.includes(role.text)
+            // console.log('role.value.toStrinf')
+            // console.log(role.text.toString())
+        }
+        deleteModal.show()
+        console.log(user)
+    }
+
+    async function submitDelete() {
+        event.preventDefault()
+        deleteModal.hide()
+        let id = document.getElementById('deleteUserID').value
+        let url = '/admin/delete'
+        fetch(url,
+            {
+
+                method: 'DELETE',
+                body: id.toString()
+            })
+            .then(response => response.json())
+            .then(commits => {
+                getUsers(commits)
+                drawAdminTable()
+            })
+    }
+
+    async function loadRoles(){
+        fetch('/admin/getRoles')
+            .then(response => response.json())
+            .then(commits => {
+                allUseRoles = commits
+            })
+    }
+
+    let editForm = document.getElementById('editForm')
+    editForm.onsubmit = submitEdit
+    let newUserForm = document.getElementById('newUserForm')
+    newUserForm.onsubmit = newUserSubmit
+    let deleteForm = document.getElementById('deleteForm')
+    deleteForm.onsubmit = submitDelete
+
+    var editModal = new bootstrap.Modal(document.getElementById('editModal'), {})
+    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'), {})
+
+    drawMe()
+    let users
+    let allUseRoles
+    loadUsers()
+    loadRoles()
+
+
+</script>
 
 </body>
 </html>

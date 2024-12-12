@@ -1,0 +1,73 @@
+<html>
+<!DOCTYPE html>
+<head></head>
+<body>
+<div th:fragment="newUserContent">
+    <div class="contaner text-center">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <form th:action="@{/admin/new}" method="post" id="newUserForm" >
+
+                    <div class="form-group text-center text-align:center">
+                        <label for="newUserFirstName"><strong>first name</strong></label>
+                        <input type="text" title="first name" name="edit_firstName"
+                               id="newUserFirstName" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="newUserLastName" class="text-center"><strong>last name</strong></label>
+                        <input type="text" name="edit_lastName"
+                               id="newUserLastName" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="newUserAge" class="text-center"><strong>age</strong></label>
+                        <input type="number" name="edit_age" id="newUserAge"
+                               class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="newUserName" class="text-center"><strong>e-mail</strong></label>
+                        <input required type="email" name="edit_name" id="newUserName"
+                               class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="newUserPassword" class="text-center"><strong>password</strong></label>
+                        <input required type="password" title="password" name="edit_password"
+                               class="form-control form-control-sm"
+                               id="newUserPassword">
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="newUserRole" class="text-center"><strong>roles:</strong></label>
+                        <select required multiple class="form-control" size="2" id="newUserRole">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" form="newUserForm" class="btn btn-success text-center"
+                    >Add new user
+                    </button>
+                </form>
+            </div>
+            <div class="col">
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

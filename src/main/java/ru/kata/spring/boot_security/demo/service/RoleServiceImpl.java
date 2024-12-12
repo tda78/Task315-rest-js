@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    private RoleDao roleRepository;
+    private final RoleDao roleRepository;
 
     @Autowired
     public RoleServiceImpl(RoleDao roleRepository) {
@@ -25,23 +25,22 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public List<String> getAllRoles() {
+        return (convertRolesToNames(roleRepository.findAll()));
     }
 
     @Override
-    public List<Role> convertNamesToRoles(String[] names) {
+    public List<Role> convertNamesToRoles(List<String> names) {
         List<Role> userRoles = new ArrayList<>();
-        for (String s : names) userRoles.add(findRole(s));
+        for (String s : names) {
+            s = "ROLE_" + s;
+            userRoles.add(findRole(s));
+        }
         return userRoles;
     }
 
     @Override
-    public String[] convertRolesToNames(List<Role> roles) {
-        String[] names = new String[roles.size()];
-        for (int i = 0; i < roles.size(); i++) {
-            names[i] = roles.get(i).getName();
-        }
-        return names;
+    public List<String> convertRolesToNames(List<Role> roles) {
+        return roles.stream().map(Role::toString).toList();
     }
 }

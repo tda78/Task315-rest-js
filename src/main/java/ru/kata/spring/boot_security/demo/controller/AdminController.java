@@ -2,16 +2,16 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
-@Controller
+
+@RestController
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -24,56 +24,31 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/")
-    public String getAllUsers(Model model, Principal principal) {
-        model.addAttribute("me", userService.loadUserByUsername(principal.getName()));
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "users";
+    @GetMapping("/getRoles")
+    public List<String> getAllRoles() {
+        return roleService.getAllRoles();
     }
 
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "newuser";
+
+    @GetMapping("/getMe")
+    public UserDto getMe(Principal principal) {
+        return userService.getme(principal.getName());
     }
 
-    @PostMapping("/new")
-    public String create(@ModelAttribute("user") User user,
-                         @RequestParam(value = "selectRoles") String[] roles) {
-        user.setRoles(roleService.convertNamesToRoles(roles));
-        userService.saveUser(user);
-        return "redirect:/admin/";
+    @GetMapping("/getAllUsers")
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    @GetMapping("/update")
-    public String updateForm(Model model, @RequestParam("id") long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "userupdate";
+    @PatchMapping("/update")
+    public List<UserDto> saveUser(@RequestBody String userJsonString) {
+        userService.updateUser(userJsonString);
+        return userService.getAllUsers();
     }
 
-    @PostMapping("/update")
-    public String submitUpdate(@ModelAttribute("user") User user,
-                               @RequestParam("id") long id,
-                               @RequestParam(value = "selectRoles") String[] roles) {
-        user.setId(id);
-        user.setRoles(roleService.convertNamesToRoles(roles));
-        userService.updateUser(user);
-        return "redirect:/admin/";
-    }
-
-    @GetMapping("/delete")
-    public String deleteForm(Model model, @RequestParam("id") long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "deleteUser";
-    }
-
-    @PostMapping("/delete")
-    public String deleteUser(@RequestParam("id") long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin/";
+    @DeleteMapping("/delete")
+    public List<UserDto> deleteUser(@RequestBody String stringId) {
+        userService.deleteUser(stringId);
+        return getAllUsers();
     }
 }
